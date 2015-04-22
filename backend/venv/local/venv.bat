@@ -1,0 +1,1 @@
+/home/samara/Documentos/eMakeup/backend/venv/venv.bat

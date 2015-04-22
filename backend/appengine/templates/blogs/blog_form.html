@@ -1,0 +1,66 @@
+{% extends 'blogs/blog_base.html' %}
+{% block body %}
+<style>
+.btn-success {
+  color: #ffffff;
+  background-color: #58b1c3;
+  border-color: #58b1c3;
+      background-image: linear-gradient(to bottom, rgba(88, 177, 195, 0.51) 0%, rgba(88, 177, 195, 0.42) 100%);
+}
+.btn-success:hover {
+  color: #ffffff;
+  background-color: #58b1c3;
+  border-color: #58b1c3;
+      background-image: linear-gradient(to bottom, #58b1c3 0%, #58b1c3 100%);
+}
+</style>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+      {% include 'base/sidebar.html'%}
+    </div>
+    <div class="col-md-10">
+        {% set blog=blog or None %}
+        {% set errors=errors or None %}
+        <div class="">
+            <div class="row">
+                <div class="col-md-10">
+                    <h2 class="text-center">{% trans %}Inseir Post{% endtrans %}</h2>
+                    <hr>
+                    <div class="col-md-8">     
+                        <form action="{{ save_path }}" method="post" role="form">
+                            {{ csrf_input() }}
+                                <div class="container">
+                                  <div class="row">
+                                    <div class="col-md-5">
+                                     {{ form_input(_('Título'),'title',blog.title,errors.title) }}
+                                    </div>
+                                    <div class="col-md-5">
+                                     {{ form_input(_('Assunto'),'subject',blog.subject,errors.subject) }}
+                                   </div>
+                                  </div>
+                                   <div class="row">
+                                    <div class="col-md-5">
+                                    {{ form_input(_('Autor'),'author',blog.author,errors.author) }}
+                                    </div>
+                                    <div class="col-md-5">
+                                     {{ form_input(_('Arquivo'),'file',blog.file,errors.file) }}
+                                   </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-10">
+                                      <b>Texto</b>
+                                    <textarea class="form-control" rows="5" id="comment"></textarea>
+                                    <button type="submit" class="btn btn-success" style="margin-top:25px;">{% trans %}Postar{% endtrans %}</button>
+                                    </div>
+                                  </div>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
