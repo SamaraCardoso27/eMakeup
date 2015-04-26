@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from student.student_model import Student, StudentForm
-from config.template_middleware import TemplateResponse
-from routes import students
+from google.appengine.ext import ndb
+from student.student_model import StudentForm, Course
 from tekton.gae.middleware.redirect import RedirectResponse
+from routes import students
 
 
-def salvar(**kwargs):
-    form =  StudentForm(**kwargs)
+def salvar(**propriedades):
+    propriedades['course']=ndb.Key(Course,int(propriedades['course']))
+    form= StudentForm(**propriedades)
     erros=form.validate()
-    if not erros:
-        propriedades=form.normalize()
-        student = Student(**propriedades)
-        student.put()
-        return RedirectResponse(students)
-    else:
-        ctx = {'student': kwargs, 'erros':erros}
-        return TemplateResponse(ctx, 'students/students_form.html')
+    if erros:
+        return
+    student=form.fill_model()
+    student.put()
+    return RedirectResponse(students)

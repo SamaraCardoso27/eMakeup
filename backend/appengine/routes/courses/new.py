@@ -1,27 +1,19 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from student.student_model import Course, CourseForm
 from config.template_middleware import TemplateResponse
-from gaebusiness.business import CommandExecutionException
-from tekton import router
-from gaecookie.decorator import no_csrf
-from course_app import course_facade
 from routes import courses
 from tekton.gae.middleware.redirect import RedirectResponse
 
 
-@no_csrf
-def index():
-    return TemplateResponse({'save_path': router.to_path(save)}, 'courses/course_form.html')
-
-
-def save(**course_properties):
-    cmd = course_facade.save_course_cmd(**course_properties)
-    try:
-        cmd()
-    except CommandExecutionException:
-        context = {'errors': cmd.errors,
-                   'course': course_properties}
-
-        return TemplateResponse(context, 'courses/course_form.html')
-    return RedirectResponse(router.to_path(courses))
-
+def salvar(**kwargs):
+    form= CourseForm(**kwargs)
+    erros=form.validate()
+    if not erros:
+        propriedades=form.normalize()
+        course = Course(**propriedades)
+        course.put()
+        return RedirectResponse(courses)
+    else:
+        ctx = {'course': kwargs, 'erros':erros}
+        return TemplateResponse(ctx, 'courses/courses_form.html')

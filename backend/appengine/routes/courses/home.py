@@ -1,34 +1,32 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from google.appengine.ext import ndb
+from student.student_model import Course
 from config.template_middleware import TemplateResponse
-from tekton import router
 from gaecookie.decorator import no_csrf
-from course_app import course_facade
-from routes.courses import new, edit
+from routes.courses import edit
+from routes.courses.new import salvar
 from tekton.gae.middleware.redirect import RedirectResponse
+from tekton.router import to_path
 
 
 @no_csrf
 def index():
-    cmd = course_facade.list_courses_cmd()
-    courses = cmd()
-    edit_path = router.to_path(edit)
-    delete_path = router.to_path(delete)
-    course_form = course_facade.course_form()
-
-    def localize_course(course):
-        course_dct = course_form.fill_with_model(course)
-        course_dct['edit_path'] = router.to_path(edit_path, course_dct['id'])
-        course_dct['delete_path'] = router.to_path(delete_path, course_dct['id'])
-        return course_dct
-
-    localized_courses = [localize_course(course) for course in courses]
-    context = {'courses': localized_courses,
-               'new_path': router.to_path(new)}
-    return TemplateResponse(context, 'courses/course_home.html')
+    query = Course.query_order_by_name()
+    edit_path_base = to_path(edit)
+    deletar_path_base = to_path(deletar)
+    courses = query.fetch()
+    for cat in courses:
+        key = cat.key
+        key_id = key.id()
+        cat.edit_path = to_path(edit_path_base, key_id)
+        cat.deletar_path = to_path(deletar_path_base, key_id)
+    ctx = {'salvar_path': to_path(salvar),
+           'courses': courses}
+    return TemplateResponse(ctx, 'courses/courses_home.html')
 
 
-def delete(course_id):
-    course_facade.delete_course_cmd(course_id)()
-    return RedirectResponse(router.to_path(index))
-
+def deletar(course_id):
+    key = ndb.Key(Course, int(course_id))
+    key.delete()
+    return RedirectResponse(index)
