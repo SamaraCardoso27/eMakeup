@@ -14,7 +14,7 @@
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Inserir Aluno</button>
                         <hr>
                         <div align="center">
-                            <h3>Lista de students</h3>
+                            <h3>Lista de Alunos</h3>
                             <hr>
                             <form action="{{ pesquisa_path }}">
                                 <select name="selected_course" class="btn-default">
@@ -27,9 +27,11 @@
                             <table class="table table-striped table-hover" style="margin-top: 30px;">
                                 <thead>
                                 <tr>
+                                    <th>{% trans %}Editar{% endtrans %}</th>
                                     <th>{% trans %}Nome{% endtrans %}</th>
                                     <th>{% trans %}Data de Nascimento{% endtrans %}</th>
                                     <th>{% trans %}Telefone{% endtrans %}</th>
+                                    <th>{% trans %}Excluir{% endtrans %}</th>
                                 </tr>
                                 </thead>
                                 <tbody>

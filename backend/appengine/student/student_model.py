@@ -37,3 +37,7 @@ class Student(ndb.Model):
 
 class StudentForm(ModelForm):
     _model_class = Student
+    _include = [Student.name,
+                Student.birthday,
+                Student.phone_number,
+                Student.course]

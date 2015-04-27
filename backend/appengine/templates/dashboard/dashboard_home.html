@@ -1,4 +1,4 @@
-{% extends 'students/students_base.html' %}
+{% extends 'base/base.html' %}
 {% block body %}
 <div class="container-fluid" style="overflow: hidden;">
     <div class="row">
@@ -19,7 +19,7 @@
                                 <th>{% trans %}Editar{% endtrans %}</th>
                                 <th>{% trans %}Nome{% endtrans %}</th>
                                 <th>{% trans %}Número de Telefone{% endtrans %}</th>
-                                <th>{% trans %}Data de Nacimento{% endtrans %}</th>
+                                <th>{% trans %}Data de Nascimento{% endtrans %}</th>
                                 <th>{% trans %}Excluir{% endtrans %}</th>
                             </tr>
                             </thead>
@@ -30,7 +30,7 @@
                                           class="glyphicon glyphicon-pencil"></i></a></td>
                                     <td>{{ student.name }}</td>
                                     <td>{{ student.phone_number }}</td>
-                                    <td>{{ student.bithday }}</td>
+                                    <td>{{ student.birthday }}</td>
                                     <td>
                                         <form action="{{ student.deletar_path }}" method="post">
                                           {{ csrf_input() }}

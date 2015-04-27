@@ -27,8 +27,8 @@ body {
             <div class="modal-body">
                 <form action="{{ salvar_path }}" method="post">
                     {{ csrf_input() }}
-                    {{ form_input('name_author','name_author',gallery.name_author,erros.name_author) }}
-                    {{ form_input('file','file',gallery.file,erros.file) }}
+                    {{ form_input('Autor','name_author',gallery.name_author,erros.name_author) }}
+                    {{ form_input('Arquivo','file',gallery.file,erros.file) }}
                     {% if gallery.key  %}
                     <input type="hidden" name="gallery_id" value="{{ gallery.key.id() }}" />
                     {% endif %}
