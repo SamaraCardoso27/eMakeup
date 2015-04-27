@@ -8,8 +8,9 @@ from routes.blogs import edit
 from routes.blogs.new import salvar
 from tekton.gae.middleware.redirect import RedirectResponse
 from tekton.router import to_path
+from gaepermission.decorator import login_not_required
 
-
+@login_not_required
 @no_csrf
 def index():
     query = Blog.query_order_by_author()
@@ -25,7 +26,8 @@ def index():
            'blogs': blogs}
     return TemplateResponse(ctx, 'blogs/blogs_home.html')
 
-
+@login_not_required
+@no_csrf
 def deletar(blog_id):
     key = ndb.Key(Blog, int(blog_id))
     key.delete()

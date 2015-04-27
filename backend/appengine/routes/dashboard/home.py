@@ -8,8 +8,9 @@ from routes.students import edit
 from routes.students.new import  salvar
 from tekton.gae.middleware.redirect import RedirectResponse
 from tekton.router import to_path
+from gaepermission.decorator import login_not_required
 
-
+@login_not_required
 @no_csrf
 def index():
     query = Student.query_order_by_name()
@@ -25,7 +26,8 @@ def index():
            'students': students}
     return TemplateResponse(ctx, 'dashboard/dashboard_home.html')
 
-
+@login_not_required
+@no_csrf
 def deletar(student_id):
     key = ndb.Key(Student, int(student_id))
     key.delete()

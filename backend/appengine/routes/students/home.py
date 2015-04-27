@@ -32,6 +32,7 @@ def index(selected_course=None):
     return TemplateResponse(ctx,'students/students_home.html')
 
 
+@login_not_required
 def deletar(student_id):
     key = ndb.Key(Student, int(student_id))
     key.delete()

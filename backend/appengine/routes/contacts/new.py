@@ -7,8 +7,10 @@ from gaecookie.decorator import no_csrf
 from contact_app import contact_facade
 from routes import contacts
 from tekton.gae.middleware.redirect import RedirectResponse
+from gaepermission.decorator import login_not_required
 
 
+@login_not_required
 @no_csrf
 def index():
     return TemplateResponse({'save_path': router.to_path(save)}, 'contacts/contact_form.html')

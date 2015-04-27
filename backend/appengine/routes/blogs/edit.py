@@ -6,8 +6,9 @@ from gaecookie.decorator import no_csrf
 from routes import blogs
 from tekton.gae.middleware.redirect import RedirectResponse
 from tekton.router import to_path
+from gaepermission.decorator import login_not_required
 
-
+@login_not_required
 @no_csrf
 def index(blog_id):
     blog = Blog.get_by_id(int(blog_id))
@@ -15,6 +16,8 @@ def index(blog_id):
          'salvar_path': to_path(atualizar)}
     return TemplateResponse(ctx,'blogs/blogs_form.html')
 
+@login_not_required
+@no_csrf
 def atualizar(blog_id,author,subject,title,text):
     blog = Blog.get_by_id(int(blog_id))
     blog.author = author

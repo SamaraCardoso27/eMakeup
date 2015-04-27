@@ -108,6 +108,7 @@
                 {% macro select_tab(tab='') %}
                     <li {{ 'class=active' if tab=='GALLERY' }}><a href="/gallery">{% trans %}Galeria{% endtrans %}</a></li>
                     <li {{ 'class=active' if tab=='CONTACT' }}><a href="/contacts/new">{% trans %}Contato{% endtrans %}</a></li>
+                    <li {{ 'class=active' if tab=='DASHBOARD' }}><a href="/dashboard">{% trans %}Admin{% endtrans %}</a></li>
 
                     {% if _logged_user and 'ADMIN' in _logged_user.groups %}
                         <li {{ 'class=active' if tab=='ADMIN' }}><a href="/dashboard">{% trans %}Admin{% endtrans %}</a></li>

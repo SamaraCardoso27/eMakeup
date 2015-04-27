@@ -4,8 +4,9 @@ from google.appengine.ext import ndb
 from student.student_model import StudentForm, Course
 from tekton.gae.middleware.redirect import RedirectResponse
 from routes import students
+from gaepermission.decorator import login_not_required
 
-
+@login_not_required
 def salvar(**propriedades):
     propriedades['course']=ndb.Key(Course,int(propriedades['course']))
     form= StudentForm(**propriedades)

@@ -4,8 +4,9 @@ from blog.blog_model import Blog, BlogForm
 from config.template_middleware import TemplateResponse
 from routes import blogs
 from tekton.gae.middleware.redirect import RedirectResponse
+from gaepermission.decorator import login_not_required
 
-
+@login_not_required
 def salvar(**kwargs):
     form =  BlogForm(**kwargs)
     erros=form.validate()

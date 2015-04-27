@@ -7,7 +7,9 @@ from routes import students
 from tekton.gae.middleware.redirect import RedirectResponse
 from tekton.router import to_path
 from google.appengine.ext import ndb
+from gaepermission.decorator import login_not_required
 
+@login_not_required
 @no_csrf
 def index(student_id):
     student = Student.get_by_id(int(student_id))
@@ -16,6 +18,7 @@ def index(student_id):
            'salvar_path': to_path(atualizar)}
     return TemplateResponse(ctx, 'students/students_form.html')
 
+@login_not_required
 def atualizar(student_id, name, birthday, phone_number, course):
     student = Student.get_by_id(int(student_id))
     student.name = name
