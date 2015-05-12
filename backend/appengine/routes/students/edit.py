@@ -27,3 +27,5 @@ def atualizar(student_id, name, birthday, phone_number, course):
     student.course = ndb.Key(Course, int(course))
     student.put()
     return RedirectResponse(students)
+
+

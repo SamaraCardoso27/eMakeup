@@ -4,6 +4,8 @@ from google.appengine.ext import ndb
 from categoria.categoria_model import Categoria
 from config.template_middleware import TemplateResponse
 from gaecookie.decorator import no_csrf
+from gaepermission.decorator import login_required, permissions
+
 from routes.categorias import edit
 from routes.categorias.new import salvar
 from tekton.gae.middleware.redirect import RedirectResponse

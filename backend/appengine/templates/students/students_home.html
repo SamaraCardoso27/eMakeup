@@ -1,90 +1,56 @@
-{% extends 'students/students_base.html' %}
+{% extends 'produtos/produtos_base.html' %}
+{% block js %}
+  <script type="application/javascript" src="/static/js/student.js"></script>
+{% endblock %}
 {% block body %}
-<div class="container-fluid" style="overflow: hidden;">
+  <div class="container">
     <div class="row">
-        <div class="col-md-2">
-            {% include 'base/sidebar.html'%}
-        </div>
-        {% set gallery = gallery or None %}
-        {% set erros = erros or None %}
-        <div class="col-md-10" style="margin-top: 30px;">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-10">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Inserir Aluno</button>
-                        <hr>
-                        <div align="center">
-                            <h3>Lista de Alunos</h3>
-                            <hr>
-                            <form action="{{ pesquisa_path }}">
-                                <select name="selected_course" class="btn-default">
-                                    {% for cat in courses %}
-                                        <option value="{{ cat.key.id() }}" {{ 'selected="selected"' | safe if cat == selected_course }}>{{ cat.name }}</option>
-                                    {% endfor %}
-                                </select>
-                                <button type="submit" class="btn btn-success">Pesquisar</button>
-                            </form>
-                            <table class="table table-striped table-hover" style="margin-top: 30px;">
-                                <thead>
-                                <tr>
-                                    <th>{% trans %}Editar{% endtrans %}</th>
-                                    <th>{% trans %}Nome{% endtrans %}</th>
-                                    <th>{% trans %}Data de Nascimento{% endtrans %}</th>
-                                    <th>{% trans %}Telefone{% endtrans %}</th>
-                                    <th>{% trans %}Excluir{% endtrans %}</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for cat in students %}
-                                    <tr>
-                                        <td><a class="btn btn-success" href="{{ cat.edit_path }}"><i class="glyphicon glyphicon-pencil"></i></a></td>
-                                        <td>{{ cat.name }}</td>
-                                        <td>{{ cat.birthday }}</td>
-                                        <td>{{ cat.phone_number }}</td>
-                                        <td>
-                                            <form action="{{cat.deletar_path}}" method="post">
-                                                {{ csrf_input() }}
-                                                <button class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+      <div class="col-md-8 col-md-offset-2">
+        <div class="well">
+          <h2> Formulário de Aluno</h2>
 
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Formulário</h4>
-            </div>
-            <div class="modal-body">
-                <form action="{{ salvar_path }}" method="post">
-                    <label>Curso</label>
-                    <select name="course">
-                        {% for cat in courses %}
-                            <option value="{{ cat.key.id() }}">{{ cat.name }}</option>
-                        {% endfor %}
-                    </select>
-                    {{ csrf_input() }}
-                    {{ form_input('Nome','name','','') }}
-                    {{ form_input('Data de Nascimento','birthday','','') }}
-                    {{ form_input('Telefone','phone_number','','') }}
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="submit">Salvar</button>
-                    </div>
-                </form>
-            </div>
+          <select id="course-input" name="course">
+            {% for cat in courses %}
+              <option value="{{ cat.key.id() }}">{{ cat.name }}</option>
+            {% endfor %}
+
+          </select>
+          {{ csrf_input() }}
+          {{ form_input('name','name','','') }}
+          {{ form_input('birthday','birthday','','') }}
+          {{ form_input('phone_number','phone_number','','') }}
+          <button id="salvar-btn" class="btn btn-success" type="button">Salvar</button>
+            <img id="ajax-save-gif" src="/static/img/ajax.gif" />
+
+
+          <div id="busca">
+
+
+            <form action="{{ pesquisa_path }}">
+              <select name="selected_course">
+                {% for cat in students %}
+                  <option
+                      value="{{ cat.key.id() }}" {{ 'selected="selected"' | safe if cat == selected_course }}>{{ cat.name }}</option>
+                {% endfor %}
+
+              </select>
+              <button type="submit" class="btn btn-success">Pesquisar</button>
+
+
+            </form>
+            <ul>
+              {% for stud in students %}
+                <li>{{ stud.name }}</li>
+              {% endfor %}
+
+            </ul>
+          </div>
         </div>
+
+      </div>
     </div>
-</div>
+  </div>
+
+
 {% endblock %}
