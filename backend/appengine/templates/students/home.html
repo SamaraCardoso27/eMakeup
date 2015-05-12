@@ -1,0 +1,56 @@
+{% extends 'students/students_base.html' %}
+{% block js %}
+  <script type="application/javascript" src="/static/js/student.js"></script>
+{% endblock %}
+{% block body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="well">
+          <h2> Formulário de Produto</h2>
+
+
+          <select id="course-input" name="course">
+            {% for cat in courses %}
+              <option value="{{ cat.key.id() }}">{{ cat.name }}</option>
+            {% endfor %}
+
+          </select>
+          {{ csrf_input() }}
+          {{ form_input('Name','name','','') }}
+            {{ form_input('Data de Nascimento','birthday','','') }}
+            {{ form_input('Telefone','phone_number','','') }}
+          <button id="salvar-btn" class="btn btn-success" type="button">Salvar</button>
+            <img id="ajax-save-gif" src="/static/img/ajax.gif" />
+
+
+          <div id="busca">
+
+
+            <form action="{{ pesquisa_path }}">
+              <select name="selected_course">
+                {% for cat in courses %}
+                  <option
+                      value="{{ cat.key.id() }}" {{ 'selected="selected"' | safe if cat == selected_course }}>{{ cat.name }}</option>
+                {% endfor %}
+
+              </select>
+              <button type="submit" class="btn btn-success">Pesquisar</button>
+
+
+            </form>
+            <ul>
+              {% for prod in students %}
+                <li>{{ prod.name }}</li>
+              {% endfor %}
+
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
