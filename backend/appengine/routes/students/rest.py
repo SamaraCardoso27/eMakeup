@@ -8,6 +8,19 @@ from tekton.gae.middleware.json_middleware import JsonUnsecureResponse
 from google.appengine.ext import ndb
 
 
+@login_not_required
+@no_csrf
+def deletar(student_id):
+    key=ndb.Key(Student,int(student_id))
+    key.delete()
+
+@login_not_required
+@no_csrf
+def listar():
+    form = StudentForm()
+    students = Student.query_order_by_name().fetch()
+    students = [form.fill_with_model(s) for s in students]
+    return JsonUnsecureResponse(students)
 
 @login_not_required
 @no_csrf
