@@ -7,17 +7,8 @@ $(document).ready(function () {
   var $courseInput = $('#course-input');
   var $studentsUl = $('#students-ul');
 
-
     function addStudent(student) {
-    //var li = '<li id="li-' + student.id + '"';
-    //li = li + '><button id="btn-deletar-' + student.id + '"';
-    //li = li + ' class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button>';
-    //li = li + student.name + '</li>';
-        //var li = '<td id="li-' + student.id + '">'+student.name+'</td>';
-//li = li + '<td>'+student.birthday+'</td>';
-//li = li + '<td>'+student.phone_number+'</td>';
-//li = li + '<td><button id="btn-deletar-' + student.id + '"class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button></td>'
-var li = '<tr><th id="li-' + student.id + '">'+student.name+'</th><td>'+student.birthday+'</td><td>'+student.phone_number+'</td><td><button id="btn-deletar-' + student.id + '"class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button></td></tr>'
+    var li = '<tr id="li-'+student.id+'"><th>'+student.name+'</th><td>'+student.birthday+'</td><td>'+student.phone_number+'</td><td><button id="btn-deletar-' + student.id + '"class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button></td></tr>'
     $studentsUl.append(li);
     $('#btn-deletar-' + student.id).click(function () {
       $.post('/students/rest/deletar', {student_id: student.id}, function () {
@@ -26,19 +17,11 @@ var li = '<tr><th id="li-' + student.id + '">'+student.name+'</th><td>'+student.
     });
   }
 
-
-
-
-
   $.get('/students/rest/listar',function(students){
     $.each(students, function(index, stu){
       addStudent(stu);
     });
   });
-
-
-
-
 
   function obterInputsDeProduto() {
     return {

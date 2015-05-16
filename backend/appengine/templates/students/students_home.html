@@ -2,35 +2,34 @@
 {% block body %}
 <script type="application/javascript" src="/static/js/student.js"></script>
 <div class="container-fluid" style="overflow: hidden;">
-  <div class="row">
-      <div class="col-md-2">
-        {% include 'base/sidebar.html'%}
-      </div>
-      <div class="col-md-10" style="margin-top: 30px;">
-          <div class="container">
-              <div class="row">
-                  <div class="col-md-10">
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Inserir Aluno</button>
-                      <hr>
-                      <h4 style="text-align: center">Lista de Alunos</h4>
-                      <hr>
+    <div class="row">
+        <div class="col-md-2">
+            {% include 'base/sidebar.html'%}
+        </div>
+        <div class="col-md-10" style="margin-top: 30px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Inserir Aluno</button>
+                        <hr>
+                        <h4 style="text-align: center">Lista de Alunos</h4>
+                        <hr>
                         <table class="table">
-                              <thead>
-                                <tr>
-                                  <th>Nome</th>
-                                  <th style="text-align: center">Data de Nascimento</th>
-                                  <th style="text-align: center">Telefone</th>
-                                  <th style="text-align: center">Remover Aluno</th>
-                                </tr>
-                              </thead>
-                              <tbody id="students-ul" style="text-align: center"></tbody>
-                            </table>
-
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+                            <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th style="text-align: center">Data de Nascimento</th>
+                                <th style="text-align: center">Telefone</th>
+                                <th style="text-align: center">Remover Aluno</th>
+                            </tr>
+                            </thead>
+                            <tbody id="students-ul" style="text-align: center"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -41,18 +40,17 @@
                 <h4 class="modal-title" id="exampleModalLabel">Formulário</h4>
             </div>
             <div class="modal-body">
-
-          <select id="course-input" name="course">
-            {% for cat in courses %}
-              <option value="{{ cat.key.id() }}">{{ cat.name }}</option>
-            {% endfor %}
-          </select>
-          {{ csrf_input() }}
-          {{ form_input('Nome','name','','') }}
-          {{ form_input('Data de Nascimento','birthday','','') }}
-          {{ form_input('Telefone','phone_number','','') }}
-          <button id="salvar-btn" class="btn btn-success" type="button">Salvar</button>
-            <img id="ajax-save-gif" src="/static/img/ajax.gif" />
+                <select id="course-input" name="course">
+                    {% for cat in courses %}
+                        <option value="{{ cat.key.id() }}">{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+                {{ csrf_input() }}
+                {{ form_input('Nome','name','','') }}
+                {{ form_input('Data de Nascimento','birthday','','') }}
+                {{ form_input('Telefone','phone_number','','') }}
+                <button id="salvar-btn" class="btn btn-success" type="button">Salvar</button>
+                <img id="ajax-save-gif" src="/static/img/ajax.gif" />
             </div>
         </div>
     </div>
