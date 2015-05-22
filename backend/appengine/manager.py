@@ -15,7 +15,7 @@ if 'GAE_SDK' in os.environ:
     dev_appserver.fix_sys_path()
 else:
     print "GAE_SDK environment variable must be on path and point to App Engine's SDK folder"
-from gaeforms.ndb.property import SimpleCurrency, SimpleDecimal
+#from gaeforms.ndb.property import SimpleCurrency, SimpleDecimal
 from google.appengine.ext.ndb.model import StringProperty, TextProperty, DateProperty, DateTimeProperty, \
     IntegerProperty, \
     FloatProperty, BooleanProperty
@@ -40,8 +40,6 @@ from routes.%(app)ss import rest
 from gaegraph.model import Node
 from mock import Mock
 from mommygae import mommy
-
-
 class IndexTests(GAETestCase):
     def test_success(self):
         mommy.save_one(%(model)s)
@@ -52,8 +50,6 @@ class IndexTests(GAETestCase):
         %(model_underscore)s_dct = context[0]
         self.assertSetEqual(set(['id', 'creation', %(model_properties)s]), set(%(model_underscore)s_dct.iterkeys()))
         self.assert_can_serialize_as_json(json_response)
-
-
 class NewTests(GAETestCase):
     def test_success(self):
         self.assertIsNone(%(model)s.query().get())
@@ -62,7 +58,6 @@ class NewTests(GAETestCase):
         self.assertIsNotNone(db_%(model_underscore)s)
 %(model_assertions)s
         self.assert_can_serialize_as_json(json_response)
-
     def test_error(self):
         resp = Mock()
         json_response = rest.new(resp)
@@ -70,8 +65,6 @@ class NewTests(GAETestCase):
         self.assertEqual(500, resp.status_code)
         self.assertSetEqual(set([%(model_properties)s]), set(errors.keys()))
         self.assert_can_serialize_as_json(json_response)
-
-
 class EditTests(GAETestCase):
     def test_success(self):
         %(model_underscore)s = mommy.save_one(%(model)s)
@@ -81,7 +74,6 @@ class EditTests(GAETestCase):
 %(model_assertions)s
         self.assertNotEqual(old_properties, db_%(model_underscore)s.to_dict())
         self.assert_can_serialize_as_json(json_response)
-
     def test_error(self):
         %(model_underscore)s = mommy.save_one(%(model)s)
         old_properties = %(model_underscore)s.to_dict()
@@ -92,14 +84,11 @@ class EditTests(GAETestCase):
         self.assertSetEqual(set([%(model_properties)s]), set(errors.keys()))
         self.assertEqual(old_properties, %(model_underscore)s.key.get().to_dict())
         self.assert_can_serialize_as_json(json_response)
-
-
 class DeleteTests(GAETestCase):
     def test_success(self):
         %(model_underscore)s = mommy.save_one(%(model)s)
         rest.delete(None, %(model_underscore)s.key.id())
         self.assertIsNone(%(model_underscore)s.key.get())
-
     def test_non_%(model_underscore)s_deletion(self):
         non_%(model_underscore)s = mommy.save_one(Node)
         response = Mock()
@@ -107,7 +96,6 @@ class DeleteTests(GAETestCase):
         self.assertIsNotNone(non_%(model_underscore)s.key.get())
         self.assertEqual(500, response.status_code)
         self.assert_can_serialize_as_json(json_response)
-
 '''
 
 HOME_TESTS_TEMPLATE = '''# -*- coding: utf-8 -*-
@@ -119,27 +107,21 @@ from gaebusiness.business import CommandExecutionException
 from gaegraph.model import Node
 from mommygae import mommy
 from tekton.gae.middleware.redirect import RedirectResponse
-
-
 class IndexTests(GAETestCase):
     def test_success(self):
         mommy.save_one(%(model)s)
         template_response = index()
         self.assert_can_render(template_response)
-
-
 class DeleteTests(GAETestCase):
     def test_success(self):
         %(model_underscore)s = mommy.save_one(%(model)s)
         redirect_response = delete(%(model_underscore)s.key.id())
         self.assertIsInstance(redirect_response, RedirectResponse)
         self.assertIsNone(%(model_underscore)s.key.get())
-
     def test_non_%(model_underscore)s_deletion(self):
         non_%(model_underscore)s = mommy.save_one(Node)
         self.assertRaises(CommandExecutionException, delete, non_%(model_underscore)s.key.id())
         self.assertIsNotNone(non_%(model_underscore)s.key.get())
-
 '''
 
 EDIT_TESTS_TEMPLATE = '''# -*- coding: utf-8 -*-
@@ -151,15 +133,11 @@ from %(app)s_app.%(app)s_model import %(model)s
 from routes.%(app)ss.edit import index, save
 from mommygae import mommy
 from tekton.gae.middleware.redirect import RedirectResponse
-
-
 class IndexTests(GAETestCase):
     def test_success(self):
         %(model_underscore)s = mommy.save_one(%(model)s)
         template_response = index(%(model_underscore)s.key.id())
         self.assert_can_render(template_response)
-
-
 class EditTests(GAETestCase):
     def test_success(self):
         %(model_underscore)s = mommy.save_one(%(model)s)
@@ -169,7 +147,6 @@ class EditTests(GAETestCase):
         edited_%(model_underscore)s = %(model_underscore)s.key.get()
 %(model_assertions)s
         self.assertNotEqual(old_properties, edited_%(model_underscore)s.to_dict())
-
     def test_error(self):
         %(model_underscore)s = mommy.save_one(%(model)s)
         old_properties = %(model_underscore)s.to_dict()
@@ -188,14 +165,10 @@ from decimal import Decimal
 from %(app)s_app.%(app)s_model import %(model)s
 from routes.%(app)ss.new import index, save
 from tekton.gae.middleware.redirect import RedirectResponse
-
-
 class IndexTests(GAETestCase):
     def test_success(self):
         template_response = index()
         self.assert_can_render(template_response)
-
-
 class SaveTests(GAETestCase):
     def test_success(self):
         self.assertIsNone(%(model)s.query().get())
@@ -204,7 +177,6 @@ class SaveTests(GAETestCase):
         saved_%(model_underscore)s = %(model)s.query().get()
         self.assertIsNotNone(saved_%(model_underscore)s)
 %(model_assertions)s
-
     def test_error(self):
         template_response = save()
         errors = template_response.context['errors']
@@ -217,11 +189,8 @@ from __future__ import absolute_import, unicode_literals
 from google.appengine.ext import ndb
 from gaegraph.model import Node
 from gaeforms.ndb import property
-
-
 class %(model)s(Node):
 %(properties)s
-
 '''
 
 COMMANDS_TEMPLATE = '''# -*- coding: utf-8 -*-
@@ -230,44 +199,28 @@ from gaebusiness.gaeutil import SaveCommand, ModelSearchCommand
 from gaeforms.ndb.form import ModelForm
 from gaegraph.business_base import UpdateNode, NodeSearch, DeleteNode
 from %(app_path)s.%(app)s_model import %(model)s
-
-
-
 class %(model)sSaveForm(ModelForm):
     """
     Form used to save and update %(model)s
     """
     _model_class = %(model)s
     _include = [%(form_properties)s]
-
-
 class %(model)sForm(ModelForm):
     """
     Form used to expose %(model)s's properties for list or json
     """
     _model_class = %(model)s
-
-
 class Get%(model)sCommand(NodeSearch):
     _model_class = %(model)s
-
-
 class Delete%(model)sCommand(DeleteNode):
     _model_class = %(model)s
-
-
 class Save%(model)sCommand(SaveCommand):
     _model_form_class = %(model)sSaveForm
-
-
 class Update%(model)sCommand(UpdateNode):
     _model_form_class = %(model)sSaveForm
-
-
 class List%(model)sCommand(ModelSearchCommand):
     def __init__(self):
         super(List%(model)sCommand, self).__init__(%(model)s.query_by_creation())
-
 '''
 
 FACADE_TEMPLATE = r'''# -*- coding: utf-8 -*-
@@ -275,8 +228,6 @@ from __future__ import absolute_import, unicode_literals
 from gaegraph.business_base import NodeSearch, DeleteNode
 from %(app_path)s.%(app)s_commands import List%(model)sCommand, Save%(model)sCommand, Update%(model)sCommand, %(model)sForm,\
     Get%(model)sCommand, Delete%(model)sCommand
-
-
 def save_%(model_underscore)s_cmd(**%(model_underscore)s_properties):
     """
     Command to save %(model)s entity
@@ -284,8 +235,6 @@ def save_%(model_underscore)s_cmd(**%(model_underscore)s_properties):
     :return: a Command that save %(model)s, validating and localizing properties received as strings
     """
     return Save%(model)sCommand(**%(model_underscore)s_properties)
-
-
 def update_%(model_underscore)s_cmd(%(model_underscore)s_id, **%(model_underscore)s_properties):
     """
     Command to update %(model)s entity with id equals '%(model_underscore)s_id'
@@ -293,16 +242,12 @@ def update_%(model_underscore)s_cmd(%(model_underscore)s_id, **%(model_underscor
     :return: a Command that update %(model)s, validating and localizing properties received as strings
     """
     return Update%(model)sCommand(%(model_underscore)s_id, **%(model_underscore)s_properties)
-
-
 def list_%(model_underscore)ss_cmd():
     """
     Command to list %(model)s entities ordered by their creation dates
     :return: a Command proceed the db operations when executed
     """
     return List%(model)sCommand()
-
-
 def %(model_underscore)s_form(**kwargs):
     """
     Function to get %(model)s's detail form.
@@ -310,8 +255,6 @@ def %(model_underscore)s_form(**kwargs):
     :return: Form
     """
     return %(model)sForm(**kwargs)
-
-
 def get_%(model_underscore)s_cmd(%(model_underscore)s_id):
     """
     Find %(model_underscore)s by her id
@@ -319,9 +262,6 @@ def get_%(model_underscore)s_cmd(%(model_underscore)s_id):
     :return: Command
     """
     return Get%(model)sCommand(%(model_underscore)s_id)
-
-
-
 def delete_%(model_underscore)s_cmd(%(model_underscore)s_id):
     """
     Construct a command to delete a %(model)s
@@ -329,7 +269,6 @@ def delete_%(model_underscore)s_cmd(%(model_underscore)s_id):
     :return: Command
     """
     return Delete%(model)sCommand(%(model_underscore)s_id)
-
 '''
 HOME_SCRIPT_TEMPLATE = '''# -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
@@ -339,8 +278,6 @@ from gaecookie.decorator import no_csrf
 from %(app_name)s import %(app)s_facade
 from routes.%(web_name)s import new, edit
 from tekton.gae.middleware.redirect import RedirectResponse
-
-
 @no_csrf
 def index():
     cmd = %(app)s_facade.list_%(model_underscore)ss_cmd()
@@ -348,23 +285,18 @@ def index():
     edit_path = router.to_path(edit)
     delete_path = router.to_path(delete)
     %(model_underscore)s_form = %(app)s_facade.%(model_underscore)s_form()
-
     def localize_%(model_underscore)s(%(model_underscore)s):
         %(model_underscore)s_dct = %(model_underscore)s_form.fill_with_model(%(model_underscore)s)
         %(model_underscore)s_dct['edit_path'] = router.to_path(edit_path, %(model_underscore)s_dct['id'])
         %(model_underscore)s_dct['delete_path'] = router.to_path(delete_path, %(model_underscore)s_dct['id'])
         return %(model_underscore)s_dct
-
     localized_%(model_underscore)ss = [localize_%(model_underscore)s(%(model_underscore)s) for %(model_underscore)s in %(model_underscore)ss]
     context = {'%(model_underscore)ss': localized_%(model_underscore)ss,
                'new_path': router.to_path(new)}
     return TemplateResponse(context, '%(app)ss/%(app)s_home.html')
-
-
 def delete(%(model_underscore)s_id):
     %(app)s_facade.delete_%(model_underscore)s_cmd(%(model_underscore)s_id)()
     return RedirectResponse(router.to_path(index))
-
 '''
 
 NEW_SCRIPT_TEMPLATE = '''# -*- coding: utf-8 -*-
@@ -376,13 +308,9 @@ from gaecookie.decorator import no_csrf
 from %(app_name)s import %(app)s_facade
 from routes import %(web_name)s
 from tekton.gae.middleware.redirect import RedirectResponse
-
-
 @no_csrf
 def index():
     return TemplateResponse({'save_path': router.to_path(save)}, '%(web_name)s/%(app)s_form.html')
-
-
 def save(**%(model_underscore)s_properties):
     cmd = %(app)s_facade.save_%(model_underscore)s_cmd(**%(model_underscore)s_properties)
     try:
@@ -390,10 +318,8 @@ def save(**%(model_underscore)s_properties):
     except CommandExecutionException:
         context = {'errors': cmd.errors,
                    '%(model_underscore)s': %(model_underscore)s_properties}
-
         return TemplateResponse(context, '%(web_name)s/%(app)s_form.html')
     return RedirectResponse(router.to_path(%(web_name)s))
-
 '''
 
 EDIT_SCRIPT_TEMPLATE = '''# -*- coding: utf-8 -*-
@@ -405,26 +331,20 @@ from gaecookie.decorator import no_csrf
 from %(app_name)s import %(app)s_facade
 from routes import %(web_name)s
 from tekton.gae.middleware.redirect import RedirectResponse
-
-
 @no_csrf
 def index(%(model_underscore)s_id):
     %(model_underscore)s = %(app)s_facade.get_%(model_underscore)s_cmd(%(model_underscore)s_id)()
     %(model_underscore)s_form = %(app)s_facade.%(model_underscore)s_form()
     context = {'save_path': router.to_path(save, %(model_underscore)s_id), '%(model_underscore)s': %(model_underscore)s_form.fill_with_model(%(model_underscore)s)}
     return TemplateResponse(context, '%(web_name)s/%(app)s_form.html')
-
-
 def save(%(model_underscore)s_id, **%(model_underscore)s_properties):
     cmd = %(app)s_facade.update_%(model_underscore)s_cmd(%(model_underscore)s_id, **%(model_underscore)s_properties)
     try:
         cmd()
     except CommandExecutionException:
         context = {'errors': cmd.errors, '%(model_underscore)s': %(model_underscore)s_properties}
-
         return TemplateResponse(context, '%(web_name)s/%(app)s_form.html')
     return RedirectResponse(router.to_path(%(web_name)s))
-
 '''
 
 REST_SCRIPT_TEMPLATE = '''# -*- coding: utf-8 -*-
@@ -432,26 +352,18 @@ from __future__ import absolute_import, unicode_literals
 from gaebusiness.business import CommandExecutionException
 from tekton.gae.middleware.json_middleware import JsonResponse
 from %(app_name)s import %(app)s_facade
-
-
 def index():
     cmd = %(app)s_facade.list_%(model_underscore)ss_cmd()
     %(model_underscore)s_list = cmd()
     %(model_underscore)s_form = %(app)s_facade.%(model_underscore)s_form()
     %(model_underscore)s_dcts = [%(model_underscore)s_form.fill_with_model(m) for m in %(model_underscore)s_list]
     return JsonResponse(%(model_underscore)s_dcts)
-
-
 def new(_resp, **%(model_underscore)s_properties):
     cmd = %(app)s_facade.save_%(model_underscore)s_cmd(**%(model_underscore)s_properties)
     return _save_or_update_json_response(cmd, _resp)
-
-
 def edit(_resp, id, **%(model_underscore)s_properties):
     cmd = %(app)s_facade.update_%(model_underscore)s_cmd(id, **%(model_underscore)s_properties)
     return _save_or_update_json_response(cmd, _resp)
-
-
 def delete(_resp, id):
     cmd = %(app)s_facade.delete_%(model_underscore)s_cmd(id)
     try:
@@ -459,8 +371,6 @@ def delete(_resp, id):
     except CommandExecutionException:
         _resp.status_code = 500
         return JsonResponse(cmd.errors)
-
-
 def _save_or_update_json_response(cmd, _resp):
     try:
         %(model_underscore)s = cmd()
@@ -469,7 +379,6 @@ def _save_or_update_json_response(cmd, _resp):
         return JsonResponse(cmd.errors)
     %(model_underscore)s_form = %(app)s_facade.%(model_underscore)s_form()
     return JsonResponse(%(model_underscore)s_form.fill_with_model(%(model_underscore)s))
-
 '''
 
 HOME_HTML_TEMPLATE = '''{%% extends '%(web_name)s/%(app)s_base.html' %%}
@@ -522,10 +431,8 @@ FORM_HTML_TEMPLATE = '''{%% extends '%(web_name)s/%(app)s_base.html' %%}
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <br/>
-
                 <div class="well">
                     <h1 class="text-center">{%% trans %%}%(model)s Form{%% endtrans %%}</h1>
-
                     <form action="{{ save_path }}" method="post" role="form">
                         {{ csrf_input() }}
 %(inputs)s
@@ -535,7 +442,6 @@ FORM_HTML_TEMPLATE = '''{%% extends '%(web_name)s/%(app)s_base.html' %%}
             </div>
         </div>
     </div>
-
 {%% endblock %%}'''
 
 
@@ -1014,6 +920,3 @@ if __name__ == '__main__':
             print 'Invalid command: %s' % sys.argv[1]
     else:
         print 'Must use command %s followed by params: <app>  <model>' % sys.argv[1]
-
-
-

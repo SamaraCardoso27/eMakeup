@@ -4,17 +4,16 @@ from config.template_middleware import TemplateResponse
 from tekton import router
 from gaecookie.decorator import no_csrf
 from gaepermission.decorator import login_not_required
-from routes.books import admin, rest
+from routes.alunos import admin, rest
 
 
 @login_not_required
 @no_csrf
 def index():
     context = {
-        'admin_path': router.to_path(admin),
         'salvar_path': router.to_path(rest.save),
+        'deletar_path': router.to_path(rest.delete),
         'editar_path': router.to_path(rest.update),
-        'apagar_path': router.to_path(rest.delete),
         'listar_path': router.to_path(rest.index)}
-    return TemplateResponse(context, 'books/home.html')
+    return TemplateResponse(context)
 

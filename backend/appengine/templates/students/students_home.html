@@ -1,6 +1,7 @@
 {% extends 'students/students_base.html' %}
 {% block body %}
 <script type="application/javascript" src="/static/js/student.js"></script>
+<script type="application/javascript" src="/static/angular/js/angular.min.js"></script>
 <div class="container-fluid" style="overflow: hidden;">
     <div class="row">
         <div class="col-md-2">
@@ -39,19 +40,21 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel">Formulário</h4>
             </div>
-            <div class="modal-body">
-                <select id="course-input" name="course">
-                    {% for cat in courses %}
-                        <option value="{{ cat.key.id() }}">{{ cat.name }}</option>
-                    {% endfor %}
-                </select>
-                {{ csrf_input() }}
-                {{ form_input('Nome','name','','') }}
-                {{ form_input('Data de Nascimento','birthday','','') }}
-                {{ form_input('Telefone','phone_number','','') }}
-                <button id="salvar-btn" class="btn btn-success" type="button">Salvar</button>
-                <img id="ajax-save-gif" src="/static/img/ajax.gif" />
-            </div>
+            <form role="form" ng-submit="salvar()">
+                <div class="modal-body">
+                    <select id="course-input" name="course">
+                        {% for cat in courses %}
+                            <option value="{{ cat.key.id() }}">{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                    {{ csrf_input() }}
+                    {{ form_input('Nome','name','','') }}
+                    {{ form_input('Data de Nascimento','birthday','','') }}
+                    {{ form_input('Telefone','phone_number','','') }}
+                    <button id="salvar-btn" class="btn btn-success" type="button">Salvar</button>
+                    <img id="ajax-save-gif" src="/static/img/ajax.gif" />
+                </div>
+            </form>
         </div>
     </div>
 </div>

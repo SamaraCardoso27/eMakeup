@@ -1,0 +1,23 @@
+{% extends 'alunos/aluno_base.html' %}
+{% block body %}
+    {% set aluno=aluno or None %}
+    {% set errors=errors or None %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <br/>
+                <div class="well">
+                    <h1 class="text-center">{% trans %}Aluno Form{% endtrans %}</h1>
+                    <form action="{{ save_path }}" method="post" role="form">
+                        {{ csrf_input() }}
+                        {{ form_input(_('Curso'),'curso',aluno.curso,errors.curso) }}
+                        {{ form_input(_('Data Nascimento'),'data_nascimento',aluno.data_nascimento,errors.data_nascimento) }}
+                        {{ form_input(_('Telefone'),'telefone',aluno.telefone,errors.telefone) }}
+                        {{ form_input(_('Nome'),'nome',aluno.nome,errors.nome) }}
+                        <button type="submit" class="btn btn-success">{% trans %}Save{% endtrans %}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

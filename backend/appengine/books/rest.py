@@ -4,6 +4,7 @@ from gaebusiness.business import CommandExecutionException
 from gaecookie.decorator import no_csrf
 from gaepermission.decorator import login_required
 from tekton.gae.middleware.json_middleware import JsonResponse, JsonUnsecureResponse
+from book_app import facade
 
 
 @login_required

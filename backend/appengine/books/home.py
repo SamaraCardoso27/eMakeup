@@ -4,6 +4,7 @@ from config.template_middleware import TemplateResponse
 from tekton import router
 from gaecookie.decorator import no_csrf
 from gaepermission.decorator import login_not_required
+from book_app import facade
 from routes.books import admin, rest
 
 
