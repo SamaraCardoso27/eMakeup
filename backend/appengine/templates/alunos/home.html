@@ -45,6 +45,8 @@
 
         }
 
+
+
     </script>
 {% endblock %}
 {% block body %}
@@ -54,15 +56,18 @@
             {% include 'base/sidebar.html'%}
         </div>
         <div class="col-md-10" ng-app="aluno-modulo" ng-controller="AlunoControlador">
-            <button class="btn btn-success" ng-click="mostrarOuEsconderForm()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Criar Novo Aluno</button>
+            <button class="btn btn-success" ng-click="mostrarOuEsconderForm()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="margin-top:25px;">Criar Novo Aluno</button>
+
+                            <aluno-form ng-show="mostrarFormFlag" aluno-salvo="adicionarAluno(aluno)"></aluno-form>
+           
             <hr/>
-            <h2>{% trans %}List of Alunos{% endtrans %}</h2>
+            <h2>{% trans %}Lista de Alunos{% endtrans %}</h2>
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
                     <th ></th>
                     <th>{% trans %}Nome{% endtrans %}</th>
-                    <th>{% trans %}Data_Nascimento{% endtrans %}</th>
+                    <th>{% trans %}Data Nascimento{% endtrans %}</th>
                     <th>{% trans %}Telefone{% endtrans %}</th>
                 </tr>
                 </thead>
@@ -70,22 +75,12 @@
                 <tr ng-repeat="f in alunos" aluno-linha aluno="f" aluno-deletado="deletarAluno($index)"></tr>
                 </tbody>
                 </table>
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="exampleModalLabel">Formulário</h4>
-                        </div>
-                        <div>
-                            <aluno-form ng-show="mostrarFormFlag" aluno-salvo="adicionarAluno(aluno)"></aluno-form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    
         </div>
     </div>
 </div>
 
 
 {% endblock %}
+
+

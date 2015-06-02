@@ -1,4 +1,20 @@
-<form ng-submit="salvar()" style="padding: 25px;">
+<script type="text/javascript">
+     function AlunoControlador($scope, AlunoAPI) {
+            $scope.mostrarFormFlag = false;
+            $scope.alunos = [];
+
+            $scope.mostrarOuEsconderForm = function () {
+                $scope.mostrarFormFlag = !$scope.mostrarFormFlag;
+            };
+
+        }
+
+
+</script>
+
+
+<div ng-app="aluno-modulo" ng-controller="AlunoControlador">
+<form ng-submit="salvar()" style="padding: 25px;" id="teste">
     <div class="containter">
         <div role="form">
             <div id="nomeDiv" class="form-group"
@@ -20,8 +36,9 @@
                 <span id="help-telefone" class="help-block">{{ erros.telefone }}</span>
             </div>
 
-            <button type="submit" class="btn btn-success" >Salvar</button>
+            <button type="submit" class="btn btn-success" ng-click="mostrarOuEsconderForm()">Salvar</button>
             <img ng-show="executandoSalvamento" src="/static/img/ajax.gif" >
         </div>
     </div>
 </form>
+</div>

@@ -60,7 +60,9 @@ $(document).ready(function () {
         promessa.success(function (aluno_do_servidor) {
             adicionarLinha(aluno_do_servidor);
         });
-
+                    $nomeInput.val('');
+            $data_nascimentoInput.val('');
+            $telefoneInput.val('');
 
         promessa.error(function (erros) {
             if (erros.responseJSON != null && erros.responseJSON.nome != null) {

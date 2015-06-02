@@ -18,6 +18,10 @@ alunoModulo.directive('alunoForm', [function () {
                     $scope.executandoSalvamento = false;
                     if ($scope.alunoSalvo != null) {
                         $scope.alunoSalvo({'aluno': aluno})
+                           $scope.aluno.nome = null;
+                           $scope.aluno.data_nascimento = null;
+                           $scope.aluno.telefone = null;
+                           $scope.class = "ng-isolate-scope ng-hide";
                     }
                 });
                 promessa.error(function (erros) {
