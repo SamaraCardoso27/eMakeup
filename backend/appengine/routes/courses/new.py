@@ -20,3 +20,7 @@ def salvar(**kwargs):
     else:
         ctx = {'course': kwargs, 'erros':erros}
         return TemplateResponse(ctx, 'courses/courses_form.html')
+
+
+
+

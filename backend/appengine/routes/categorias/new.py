@@ -17,3 +17,8 @@ def salvar(**kwargs):
     else:
         ctx = {'categoria': kwargs, 'erros':erros}
         return TemplateResponse(ctx, 'categorias/categorias_form.html')
+
+
+
+
+
