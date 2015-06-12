@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2" style="margin-top: 150px;">
+            <div class="well">
+                <h3>Lista de Fotos</h3>
+                <ul>
+                    {% for arq in arquivos %}
+                        <li><a href="{{ arq.download_path }}"></a>{{ arq.filename }} <img src="{{arq.img(60)}}"/></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
