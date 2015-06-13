@@ -6,18 +6,14 @@ from google.appengine.ext.blobstore import blobstore
 from blob_app import blob_facade
 from config.template_middleware import TemplateResponse
 from gaecookie.decorator import no_csrf
+from gaepermission.decorator import login_not_required
 from tekton import router
 from routes.updown import upload, download
 from tekton.gae.middleware.redirect import RedirectResponse
 
-
+@login_not_required
 @no_csrf
 def index(_logged_user):
-    """
-    This is a example of file upload using
-    Google Cloud Storage
-    :return:
-    """
     success_url = router.to_path(upload)
     bucket = get_default_gcs_bucket_name()
     logging.info(bucket)
@@ -38,7 +34,8 @@ def index(_logged_user):
                'blob_files': blob_files}
     return TemplateResponse(context, 'updown/home.html')
 
-
+@login_not_required
+@no_csrf
 def delete(blob_chave):
     cmd = blob_facade.delete_blob_file_cmd(blob_chave)
     cmd.execute()

@@ -110,6 +110,7 @@
                     <li {{ 'class=active' if tab=='CONTACT' }}><a href="/contacts/new">{% trans %}Contato{% endtrans %}</a></li>
                     <li><a href="https://8-dot-projetoemakeup.appspot.com/students">{% trans %}CRUD - jQuery{% endtrans %}</a></li>
                     <li><a href="https://projetoemakeup.appspot.com/alunos">{% trans %}CRUD - AngularJS{% endtrans %}</a></li>
+                    <li {{ 'class=active' if tab=='GALLERY' }}><a href="/updown">{% trans %}Upload/Download{% endtrans %}</a></li>
 
                     {% if _logged_user and 'ADMIN' in _logged_user.groups %}
                         <li {{ 'class=active' if tab=='ADMIN' }}><a href="/dashboard">{% trans %}Admin{% endtrans %}</a></li>
