@@ -8,9 +8,9 @@ from tekton.gae.middleware.redirect import RedirectResponse
 
 
 @login_not_required
-def index(_handler, _logged_user, files):
+def index(_handler, files):
     blob_infos = _handler.get_uploads('files[]')
-    cmd = blob_facade.save_blob_files_cmd(blob_infos, _logged_user)
+    cmd = blob_facade.save_blob_files_cmd(blob_infos)
     cmd.execute()
     path = router.to_path(updown)
     return RedirectResponse(path)
